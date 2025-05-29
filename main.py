@@ -14,48 +14,29 @@ BLUE = (0, 0, 255)
 # Player
 player = pygame.Rect(20, 20, 30, 30)
 
-# Goal
-goal = pygame.Rect(600, 600, 30, 30)
+# Define the goal (green square) at the end of the maze
+goal = pygame.Rect(600, 600, 30, 30)  # Position and size of the green square
 
-# Walls for a larger and more complex maze
+# Walls for the original-sized maze
 walls = [
     # Outer boundary (with an entrance at the top-left)
-    pygame.Rect(150, 50, 500, 20),    # Top boundary with a larger gap for entrance
+    pygame.Rect(100, 50, 400, 20),    # Top boundary with a gap for entrance
     pygame.Rect(50, 50, 20, 600),     # Left boundary
-    pygame.Rect(650, 50, 20, 600),    # Right boundary
-    pygame.Rect(50, 650, 600, 20),    # Bottom boundary
+    pygame.Rect(550, 50, 20, 600),    # Right boundary
+    pygame.Rect(50, 650, 500, 20),    # Bottom boundary
 
     # Maze structure
-    pygame.Rect(150, 100, 400, 20),   # Horizontal wall near the top
-    pygame.Rect(150, 100, 20, 150),   # Vertical wall near the top-left
-    pygame.Rect(300, 100, 20, 200),   # Vertical wall near the center-left
-    pygame.Rect(400, 150, 200, 20),   # Horizontal wall near the center
-    pygame.Rect(150, 250, 150, 20),   # Horizontal wall near the bottom-left
-    pygame.Rect(400, 250, 20, 200),   # Vertical wall near the center-right
-    pygame.Rect(300, 400, 200, 20),   # Horizontal wall near the bottom-center
-    pygame.Rect(150, 400, 20, 200),   # Vertical wall near the bottom-left
-    pygame.Rect(400, 500, 200, 20),   # Horizontal wall near the bottom-right
-    pygame.Rect(550, 350, 20, 200),   # Vertical wall near the bottom-right
-    pygame.Rect(200, 600, 300, 20),   # Horizontal wall near the bottom-center
-
-    # Additional complexity
-    pygame.Rect(200, 200, 20, 150),   # Vertical wall near the middle-left
-    pygame.Rect(350, 250, 20, 150),   # Vertical wall near the middle-center
-    pygame.Rect(500, 100, 20, 150),   # Vertical wall near the top-right
-    pygame.Rect(300, 300, 200, 20),   # Horizontal wall near the middle
-    pygame.Rect(150, 500, 150, 20),   # Horizontal wall near the bottom-left
-    pygame.Rect(350, 500, 20, 100),   # Vertical wall near the bottom-center
-
-    # New walls for increased difficulty
-    pygame.Rect(250, 150, 20, 100),   # Vertical wall near the top-center
-    pygame.Rect(450, 200, 100, 20),   # Horizontal wall near the center-right
-    pygame.Rect(100, 300, 100, 20),   # Horizontal wall near the middle-left
-    pygame.Rect(250, 350, 20, 100),   # Vertical wall near the middle-left
-    pygame.Rect(500, 400, 100, 20),   # Horizontal wall near the bottom-right
-    pygame.Rect(200, 450, 100, 20),   # Horizontal wall near the bottom-left
-    pygame.Rect(550, 150, 20, 100),   # Vertical wall near the top-right
-    pygame.Rect(450, 550, 100, 20),   # Horizontal wall near the bottom-right
-    pygame.Rect(300, 550, 20, 100),   # Vertical wall near the bottom-center
+    pygame.Rect(100, 100, 300, 20),   # Horizontal wall near the top
+    pygame.Rect(100, 100, 20, 100),   # Vertical wall near the top-left
+    pygame.Rect(200, 100, 20, 150),   # Vertical wall near the center-left
+    pygame.Rect(300, 150, 100, 20),   # Horizontal wall near the center
+    pygame.Rect(100, 200, 100, 20),   # Horizontal wall near the bottom-left
+    pygame.Rect(300, 200, 20, 100),   # Vertical wall near the center-right
+    pygame.Rect(200, 300, 100, 20),   # Horizontal wall near the bottom-center
+    pygame.Rect(100, 300, 20, 100),   # Vertical wall near the bottom-left
+    pygame.Rect(300, 350, 100, 20),   # Horizontal wall near the bottom-right
+    pygame.Rect(400, 250, 20, 100),   # Vertical wall near the bottom-right
+    pygame.Rect(150, 400, 150, 20),   # Horizontal wall near the bottom-center
 ]
 
 running = True
@@ -83,16 +64,19 @@ while running:
             print("Hit wall!")
             running = False
 
-    # Win condition
+    # Draw the green square (goal)
+    pygame.draw.rect(screen, (0, 255, 0), goal)  # Green color (RGB: 0, 255, 0)
+
+    # Check for collision between the player and the goal
     if player.colliderect(goal):
-        print("You win!")
-        running = False
+        print("You reached the goal!")  # Game-ending logic
+        running = False  # End the game
 
     pygame.draw.rect(screen, BLUE, player)
-    pygame.draw.rect(screen, GREEN, goal)
     for wall in walls:
         pygame.draw.rect(screen, BLACK, wall)
 
+    # Update the display
     pygame.display.flip()
 
 pygame.quit()
