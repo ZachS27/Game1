@@ -1,7 +1,11 @@
 import pygame
 
 pygame.init()
-screen = pygame.display.set_mode((500, 500))
+
+# Screen dimensions
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 800
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Maze Escape")
 clock = pygame.time.Clock()
 
@@ -15,28 +19,52 @@ BLUE = (0, 0, 255)
 player = pygame.Rect(20, 20, 30, 30)
 
 # Define the goal (green square) at the end of the maze
-goal = pygame.Rect(600, 600, 30, 30)  # Position and size of the green square
+goal = pygame.Rect(750, 750, 30, 30)  # Position and size of the green square
 
-# Walls for the original-sized maze
+# Walls for the updated maze (filling the entire screen)
 walls = [
-    # Outer boundary (with an entrance at the top-left)
-    pygame.Rect(100, 50, 400, 20),    # Top boundary with a gap for entrance
-    pygame.Rect(50, 50, 20, 600),     # Left boundary
-    pygame.Rect(550, 50, 20, 600),    # Right boundary
-    pygame.Rect(50, 650, 500, 20),    # Bottom boundary
+    # Outer boundary
+    pygame.Rect(0, 0, SCREEN_WIDTH, 10),    # Top boundary
+    pygame.Rect(0, 0, 10, SCREEN_HEIGHT),   # Left boundary
+    pygame.Rect(SCREEN_WIDTH - 10, 0, 10, SCREEN_HEIGHT),  # Right boundary
+    pygame.Rect(0, SCREEN_HEIGHT - 10, SCREEN_WIDTH, 10),  # Bottom boundary
 
     # Maze structure
-    pygame.Rect(100, 100, 300, 20),   # Horizontal wall near the top
-    pygame.Rect(100, 100, 20, 100),   # Vertical wall near the top-left
-    pygame.Rect(200, 100, 20, 150),   # Vertical wall near the center-left
-    pygame.Rect(300, 150, 100, 20),   # Horizontal wall near the center
-    pygame.Rect(100, 200, 100, 20),   # Horizontal wall near the bottom-left
-    pygame.Rect(300, 200, 20, 100),   # Vertical wall near the center-right
-    pygame.Rect(200, 300, 100, 20),   # Horizontal wall near the bottom-center
-    pygame.Rect(100, 300, 20, 100),   # Vertical wall near the bottom-left
-    pygame.Rect(300, 350, 100, 20),   # Horizontal wall near the bottom-right
-    pygame.Rect(400, 250, 20, 100),   # Vertical wall near the bottom-right
-    pygame.Rect(150, 400, 150, 20),   # Horizontal wall near the bottom-center
+    pygame.Rect(100, 100, 20, 200),   # Vertical wall near the top-left
+    pygame.Rect(300, 100, 20, 300),   # Vertical wall near the center-left
+    pygame.Rect(500, 150, 200, 20),   # Horizontal wall near the center
+    pygame.Rect(100, 300, 200, 20),   # Horizontal wall near the bottom-left
+    pygame.Rect(500, 300, 20, 300),   # Vertical wall near the center-right
+    pygame.Rect(300, 500, 200, 20),   # Horizontal wall near the bottom-center
+    pygame.Rect(100, 500, 20, 200),   # Vertical wall near the bottom-left
+    pygame.Rect(500, 700, 200, 20),   # Horizontal wall near the bottom-right
+    pygame.Rect(700, 400, 20, 300),   # Vertical wall near the bottom-right
+    pygame.Rect(200, 750, 400, 20),   # Horizontal wall near the bottom-center
+
+    # Additional obstacles
+    pygame.Rect(200, 200, 100, 20),   # Horizontal wall near the top-left
+    pygame.Rect(400, 200, 20, 100),   # Vertical wall near the center
+    pygame.Rect(600, 200, 100, 20),   # Horizontal wall near the top-right
+    pygame.Rect(200, 400, 20, 100),   # Vertical wall near the middle-left
+    pygame.Rect(400, 400, 100, 20),   # Horizontal wall near the middle
+    pygame.Rect(600, 500, 20, 100),   # Vertical wall near the middle-right
+
+    # New obstacles
+    pygame.Rect(250, 150, 20, 150),   # Vertical wall near the top-left
+    pygame.Rect(450, 250, 150, 20),   # Horizontal wall near the center-right
+    pygame.Rect(350, 350, 20, 150),   # Vertical wall near the middle
+    pygame.Rect(150, 550, 150, 20),   # Horizontal wall near the bottom-left
+    pygame.Rect(650, 350, 20, 150),   # Vertical wall near the bottom-right
+    pygame.Rect(250, 700, 100, 20),   # Horizontal wall near the bottom-left
+    pygame.Rect(550, 650, 20, 100),   # Vertical wall near the bottom-center
+    pygame.Rect(450, 100, 20, 100),   # Vertical wall near the top-center
+    pygame.Rect(300, 250, 100, 20),   # Horizontal wall near the top-center
+    pygame.Rect(550, 550, 100, 20),   # Horizontal wall near the bottom-center
+    pygame.Rect(700, 150, 20, 150),   # Vertical wall near the top-right
+    pygame.Rect(200, 650, 100, 20),   # Horizontal wall near the bottom-left
+    pygame.Rect(350, 600, 20, 100),   # Vertical wall near the bottom-center
+    pygame.Rect(150, 150, 100, 20),   # Horizontal wall near the top-left corner
+    pygame.Rect(650, 250, 100, 20),   # Horizontal wall near the top-right
 ]
 
 running = True
@@ -65,7 +93,7 @@ while running:
             running = False
 
     # Draw the green square (goal)
-    pygame.draw.rect(screen, (0, 255, 0), goal)  # Green color (RGB: 0, 255, 0)
+    pygame.draw.rect(screen, GREEN, goal)  # Green color (RGB: 0, 255, 0)
 
     # Check for collision between the player and the goal
     if player.colliderect(goal):
